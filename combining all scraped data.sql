@@ -104,4 +104,21 @@ UNION SELECT #these are the columns from the lpl scraped data
 FROM
     all_lpldata;
     
-select * from all_scrapeddata;
+select player, gameid, url from all_scrapeddata where patch=0;
+
+select url, gameid from elixerdata;
+
+select substring(url, -5, 4) as partial from all_lpldata;
+
+SELECT DISTINCT
+    SUBSTRING(url, - 5, 4) AS partial
+FROM
+    elixerdata
+WHERE
+    url LIKE '%lpl%'
+Union
+Select distinct
+	substring(url, -5, 4) as partial
+    from all_lpldata;
+
+select url from all_scrapeddata;
