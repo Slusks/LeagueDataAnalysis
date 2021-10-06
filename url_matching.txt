@@ -1,0 +1,11 @@
+For creating an index or table that matches Elixer games with Scraped games. Use E.gameid as a string that should be common to both. You can use that as a search term to create a bunch of dictionaries, and then drop those dictionaries to a pandas spreadsheet.
+
+l = list(e.gameid)
+e = list(e.url)
+s = list(s.url)
+
+d = [{gameid:i}, {e:e.url}, {s:s.url}]
+
+Something like the above.
+
+	
