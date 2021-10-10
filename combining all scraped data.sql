@@ -106,6 +106,8 @@ FROM
     
 select player, gameid, url from all_scrapeddata where patch=0;
 
+select * from all_scrapeddata where patch=0 and url is null;
+
 select url, gameid from elixerdata;
 
 select substring(url, -5, 4) as partial from all_lpldata;
@@ -122,3 +124,17 @@ Select distinct
     from all_lpldata;
 
 select url from all_scrapeddata;
+
+drop table if exists urltable;
+create table urltable(
+eurl varchar(255),
+gameid varchar(20),
+surl varchar(255));
+
+
+LOAD DATA LOCAL INFILE 'F://LeagueStats//scraping//LeagueDataAnalysis//url_matching_table.csv' into table urltable
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
+
+select distinct * from urltable where eurl !='' and surl !='' order by eurl;   
