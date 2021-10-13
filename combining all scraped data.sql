@@ -132,9 +132,28 @@ gameid varchar(20),
 surl varchar(255));
 
 
-LOAD DATA LOCAL INFILE 'F://LeagueStats//scraping//LeagueDataAnalysis//url_matching_table.csv' into table urltable
+LOAD DATA LOCAL INFILE 'F://LeagueStats//scraping//LeagueDataAnalysis//url_matching_table_no_empty.csv' into table urltable
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
 
-select distinct * from urltable where eurl !='' and surl !='' order by eurl;   
+update urltable
+set surl = REPLACE(surl, '"','');
+
+SELECT 
+    s.url, e.gameid
+FROM
+    elixerdata e
+        JOIN
+    scrapeddata s ON e.url = s.url;
+    
+select * from urltable limit 100000;
+
+SELECT
+   *
+from
+   urltable
+   where
+   surl !=""
+order by
+	eurl;

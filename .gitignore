@@ -1,2 +1,4 @@
 
 url_matching_table.csv
+url_matching_table_no_empty.csv
+*.csv
