@@ -4,6 +4,9 @@
 #show global variables like 'local_infile';
 #set global local_infile=true;
 
+#Before running this script, open file in notepad++ and convert to Unix (CRLF -> LF)
+#open in excel and drop all duplicates
+
 drop table if exists urlrec;
 create table urlrec(
 elixer varchar(255),
@@ -19,7 +22,7 @@ IGNORE 1 LINES;
 select * from urlrec where elixer != scrape;
 #it's always a shorter row tied to the longer row.
 #Example: elixer = 8001, scrape = 8001 exists
-# elixer = 8001, scrape = 800 exists exist
+# elixer = 800, scrape = 8001 exists exist
 # elixer = 800, scrape = 800 does not exist
 
 
