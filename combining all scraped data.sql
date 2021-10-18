@@ -1,6 +1,7 @@
 #union to combine all scraped data
 #need to list out the columns so they get added in the right order
 
+
 Create or replace view all_scrapeddata AS 
 SELECT #these are the columns from the non-lpl scraped data
 	assists,
@@ -103,7 +104,7 @@ UNION SELECT #these are the columns from the lpl scraped data
     null as truedamagetochampions
 FROM
     all_lpldata;
-    
+ /*   
 select player, gameid, url from all_scrapeddata where patch=0;
 
 select * from all_scrapeddata where patch=0 and url is null;
@@ -124,7 +125,8 @@ Select distinct
     from all_lpldata;
 
 select url from all_scrapeddata;
-
+*/
+/*
 drop table if exists urltable;
 create table urltable(
 eurl varchar(255),
@@ -157,3 +159,4 @@ from
    surl !=""
 order by
 	eurl;
+*/

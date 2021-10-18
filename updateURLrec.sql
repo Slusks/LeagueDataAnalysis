@@ -27,8 +27,6 @@ select * from urlrec where elixer != scrape;
 
 
 
-    
-
 SELECT distinct
     url.*, e.patch
 FROM
@@ -38,7 +36,16 @@ FROM
 ORDER BY elixer;#e.patch;
 
 
-
+SELECT distinct
+    s.url,
+    e.url,
+    e.patch,
+    s.champion
+FROM
+    scrapeddata s
+        JOIN
+    elixerdata e ON s.url = e.url
+ORDER BY e.patch;
 
 
 
