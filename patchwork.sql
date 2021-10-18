@@ -27,19 +27,9 @@ FROM
 left Join all_scrapeddata s on e.url = s.url
 WHERE
     e.url LIKE '%lpl%';
-    
-drop table if exists urlrec;
-create table urlrec(
-elixer varchar(255),
-scrape varchar(255));
+#######################################################
 
 
-
-LOAD DATA LOCAL INFILE 'F://LeagueStats//scraping//LeagueDataAnalysis//urlrec.csv' into table urlrec
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-IGNORE 1 LINES;    
-    
 
     
     
