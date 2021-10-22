@@ -37,25 +37,18 @@ ORDER BY elixer;#e.patch;
 
 
 SELECT distinct
-    s.url,
-    e.url,
-    e.patch,
-    s.champion
+    s.champion,
+    count(s.champion) as 'gamesplayed'
 FROM
     scrapeddata s
         JOIN
-    elixerdata e ON s.url = e.url
-ORDER BY e.patch;
+    elixerdata e ON s.champion = e.champion
+group by s.champion
+order by gamesplayed desc;
 
-
-
-
-/*
-#Needed to do this becaue there was an error in how the that record carried over
-update urlrec
-set scrape = 'https://lpl.qq.com/es/stats.shtml?bmid=438\r'
-where elixer = 'https://lpl.qq.com/es/stats.shtml?bmid=438';
- */ 
-# elixer, scrape, patch
+select champion, count(champion) as played from elixerdata where player !='' group by champion order by played DESC;
+#37,142 unique urls in scrappedata (372,239 rows) That's about 10 rows per URL which is mostly expected
+#37,279 unique urls in elixerdata (514574 rows) That's about 13 rows per url which is odd
+#this would equal
 
 

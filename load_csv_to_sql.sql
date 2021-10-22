@@ -104,17 +104,40 @@ create table elixerdata(
 	opp_csat15 int NULL,
 	golddiffat15 int NULL,
 	xpdiffat15 int NULL,
-	csdiffat15 int NULL );
+	csdiffat15 int NULL,
+	turretplates int null,
+    opp_turretplates int null,
+    damagetakenperminute float null,
+    damagemitigatedperminute float null,
+    killsat10 int null,
+	assistsat10 int null,
+	deathsat10 int null,
+	opp_killsat10 int null,
+	opp_assistsat10 int null,
+	opp_deathsat10 int null,
+	killsat15 int null,
+	assistsat15 int null,
+	deathsat15 int null,
+	opp_killsat15 int null,
+	opp_assistsat15 int null,
+	opp_deathsat15 int null
+    );
     
-LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//2021_league_stats_9-11-2021.csv' into table elixerdata
+LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//utf8_2021_league_stats_9-11-2021.csv' into table elixerdata
+CHARACTER SET 'utf8mb4'
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES;    
+
+#If you pull the 2021 data down from oracle's elixer, you have to move some of the columns.
+#When you load the 2021 data, the university of california, Irvine team totally fucks up the columns.
     
 LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//2020_league_stats.csv' into table elixerdata
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
+
+#If you pull the 2020 data down from oracle's elixer, you have to move some of the columns.
 
 LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//2019_league_stats.csv' into table elixerdata
 FIELDS TERMINATED BY ','
@@ -137,4 +160,4 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
 
 
-select * from elixerdata;
+select * from elixerdata where damageshare > 1;
