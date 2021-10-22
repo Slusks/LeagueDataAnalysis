@@ -160,4 +160,4 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
 
 
-select * from elixerdata where damageshare > 1;
+#select * from elixerdata where damageshare > 1;

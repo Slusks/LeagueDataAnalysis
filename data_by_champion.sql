@@ -50,9 +50,8 @@ SELECT
 	champion,
     count(gameid) as 'games'
     from
-    elixer_leaguestats
+    elixerdata
     where position !="team"
     group by champion
     order by games DESC;
     
-    Select * from elixer_leaguestats  limit 50;
