@@ -1,37 +1,3 @@
-select
-	s.champion,
-    count(s.champion) as 'games',
-    e.patch,
-    AVG(s.totalphysicaldamagedealt) as 'totalphysicaldamagedealt',
-    AVG(s.totalmagicdamagedealt) as 'totalmagicadamagedealt',
-    AVG(s.physicaldamagetochampions) as 'physicaldamagetochampions',
-    AVG(s.magicdamagetochampions) as 'magicdamagetochampions',
-    AVG(s.totaldamagetoobjectives) as 'totaldamagetoobjectives'
-from
-	scrapeddata s
-join elixerdata e on s.url = e.url
-where s.totaldamagetoobjectives != 0
-group by champion, result
-order by patch;
-
-select
-	s.champion,
-    e.result,
-    count(s.champion) as 'games',
-    AVG(s.totalphysicaldamagedealt) as 'totalphysicaldamagedealt',
-    AVG(s.totalmagicdamagedealt) as 'totalmagicadamagedealt',
-    AVG(s.physicaldamagetochampions) as 'physicaldamagetochampions',
-    AVG(s.magicdamagetochampions) as 'magicdamagetochampions',
-    AVG(s.totaldamagetoobjectives) as 'totaldamagetoobjectives',
-    AVG(e.damageshare) as 'avgdamageshare',
-    AVG(e.dpm) as 'avgDPM'
-from
-	scrapeddata s
-join elixerdata e on s.url = e.url
-where s.totaldamagetoobjectives != 0
-group by s.champion, e.result
-order by s.champion;
-
 Create or replace view s_1 AS 
 select
 	champion,
@@ -40,6 +6,7 @@ select
     physicaldamagetochampions,
     magicdamagetochampions,
     totaldamagetoobjectives,
+    damagetaken,
     url
 from
 	all_scrapeddata
@@ -51,11 +18,12 @@ select
 	result,
     damageshare,
     dpm,
+    position,
     url
 from
 	elixerdata
-where champion !='';
-
+where champion !='' and position = 'top';
+/*
 #THIS SEEMS TO WORK LETS GOOOOOOOO
 Select
 e.champion,
@@ -70,21 +38,31 @@ s.totaldamagetoobjectives
 from
 	s_1 s 
 join e_1 e on e.url = s.url AND e.champion = s.champion;
-
+*/
 select
 	e.champion,
-    e.result,
+    #e.result,
     count(e.champion) as 'games',
-	AVG(e.damageshare) as 'avgdamageshare',
     AVG(e.dpm) as 'avgDPM',
-    AVG(s.totalphysicaldamagedealt) as 'totalphysicaldamagedealt',
-    AVG(s.totalmagicdamagedealt) as 'totalmagicadamagedealt',
+    #AVG(s.totalphysicaldamagedealt) as 'totalphysicaldamagedealt',
+    #AVG(s.totalmagicdamagedealt) as 'totalmagicadamagedealt',
     AVG(s.physicaldamagetochampions) as 'physicaldamagetochampions',
     AVG(s.magicdamagetochampions) as 'magicdamagetochampions',
-    AVG(s.totaldamagetoobjectives) as 'totaldamagetoobjectives'
-from
+    AVG(s.totaldamagetoobjectives) as 'totaldamagetoobjectives',
+    AVG(s.damagetaken) as 'damagetaken',
+    AVG(e.damageshare) as 'avgdamageshare',
+	#AVG(s.physicaldamagetochampions/s.damagetaken) as 'pdealt-taken',
+    #AVG(s.magicdamagetochampions/s.damagetaken) as 'mdealt-taken',
+    CASE 
+		When s.physicaldamagetochampions > s.magicdamagetochampions 
+		then AVG(s.physicaldamagetochampions/s.damagetaken)
+		else AVG(s.magicdamagetochampions/s.damagetaken)
+		end as 'DamageRatio'
+    from
 	s_1 s 
-join e_1 e on e.url = s.url AND e.champion = s.champion
-where s.totaldamagetoobjectives != 0
-group by s.champion, e.result
-order by s.champion;
+join e_1 e on s.url = e.url AND e.champion = s.champion
+where s.totaldamagetoobjectives != 0 
+	and e.position = 'top' 
+group by s.champion
+having count(e.champion) > 50
+order by DamageRatio DESC;
