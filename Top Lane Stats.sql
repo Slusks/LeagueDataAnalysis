@@ -7,19 +7,16 @@ SELECT
 	e.split,
     e.side,
     e.position,
-    s.champion,
+    e.champion,
     e.player,
     e.patch,
     e.result,
     e.earnedgoldshare,
     e.damageshare,
     e.total_cs,
-    s.goldearned,
-    s.damagetaken,
-    s.totaldamagetoobjectives,
     e.dpm,
     e.gamelength,
-    (e.dpm * e.gamelength) as 'totaldamage',
+    (e.dpm * (e.gamelength/60)) as 'totaldamage',
     e.goldat10, 
 	e.xpat10, 
 	e.csat10,
@@ -37,27 +34,27 @@ SELECT
 	e.opp_csat15,
 	e.golddiffat15, 
 	e.xpdiffat15,
-	e.csdiffat15
+	e.csdiffat15,
+	s.goldearned,
+    s.damagetaken,
+    s.totaldamagetoobjectives
 FROM
-    all_scrapeddata s
-join elixerdata e on e.url = s.url/*on s.kills = e.kills and s.assists = e.assists and s.deaths = e.deaths and e.champion = s.champion*/
+    elixerdata e
+left join all_scrapeddata s on s.url = e.url and e.champion = s.champion# and e.patch = s.patch/*on s.kills = e.kills and s.assists = e.assists and s.deaths = e.deaths */
 WHERE
-	(e.position = 'top' AND e.player != 'Solo') AND
-    (s.player != 'FLY Solo' OR
-    s.player != 'FOX Solo' OR
-	s.player !='CG Solo' OR
-    s.player != 'GG Solo' OR
-    s.player !='CLG Solo') and
-    e.patch !=0
+	e.position = 'TOP' AND e.player != 'Solo'
 order by year;
+#select * from toplanestats;
 
-
+/*Test to make sure the join worked correctly */
+select * from toplanestats where player = 'theShy';
 
 /* Toplaner Stats by patch/result */
 Select
-patch,
-result,
-count(result) as 'games',
+	player,
+	patch,
+	result,
+    count(result) as 'games',
     avg(earnedgoldshare),
     avg(damageshare),
     avg(total_cs),
@@ -86,8 +83,10 @@ count(result) as 'games',
 	avg(csdiffat15)
 from
 	toplanestats
-group by player, patch, result
-order by patch ASC, result DESC;
+group by player
+order by player;
+
+select player, patch, earnedgoldshare, damageshare from toplanestats where player = 'TheShy' order by patch;
 
 /* toplane champion stats */
 Select
@@ -125,3 +124,9 @@ from
 	toplanestats
 group by champion
 order by games desc;
+
+#============================Scratch=================================================#
+
+select *from elixerdata where player='TheShy' order by patch desc;
+
+select player, url, patch from all_scrapeddata where player = 'IGTheShy';
