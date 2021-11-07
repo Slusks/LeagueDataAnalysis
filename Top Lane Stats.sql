@@ -5,6 +5,7 @@ SELECT
 	e.url,
 	e.year,
 	e.split,
+    e.league,
     e.side,
     e.position,
     e.champion,
@@ -52,9 +53,9 @@ select * from toplanestats where player = 'theShy';
 /* Toplaner Stats by patch/result */
 Select
 	player,
-	patch,
-	result,
+	100*(sum(result)/count(result)) as 'winPercentage',
     count(result) as 'games',
+    sum(result) as 'wins',
     avg(earnedgoldshare),
     avg(damageshare),
     avg(total_cs),
@@ -84,9 +85,10 @@ Select
 from
 	toplanestats
 group by player
-order by player;
+having count(result) > 18
+order by winPercentage DESC, games DESC;
 
-select player, patch, earnedgoldshare, damageshare from toplanestats where player = 'TheShy' order by patch;
+#select player, patch, earnedgoldshare, damageshare from toplanestats where player = 'TheShy' order by patch;
 
 /* toplane champion stats */
 Select
