@@ -1,11 +1,12 @@
 Data handling
 
 If you want to incorporate new data:
-
+***
 Elixer:
 - Download from website
 - Open in notepad++ and convert to Unix formatting
 	- confirm UTF-8 encoding
+- 2021 and 2020 columns are different than previous years. When you load new data for at least these years, run the python script to reorder everything.
 - load in with load_csv_to_sql script
 
 Data Loading Scripts:
