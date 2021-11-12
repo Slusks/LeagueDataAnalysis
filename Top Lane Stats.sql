@@ -49,6 +49,7 @@ order by year;
 
 /*Test to make sure the join worked correctly */
 select * from toplanestats where player = 'theShy';
+select * from toplanestats where damageshare > 1;
 
 /* Toplaner Stats by patch/result */
 Select
@@ -127,8 +128,39 @@ from
 group by champion
 order by games desc;
 
+/*Full on aggregate toplaner stats. The end all be all*/
+
+Select
+    count(champion) as 'games',
+    avg(earnedgoldshare),
+    avg(damageshare),
+    avg(total_cs),
+    avg(goldearned),
+    avg(damagetaken),
+    avg(totaldamagetoobjectives),
+    avg(dpm),
+    avg(gamelength),
+    avg(dpm)*avg(gamelength) as 'avg_damage',
+    avg(goldat10), 
+	avg(xpat10), 
+	avg(csat10),
+	avg(opp_goldat10), 
+	avg(opp_xpat10), 
+	avg(opp_csat10), 
+	avg(golddiffat10),
+	avg(xpdiffat10), 
+	avg(csdiffat10), 
+	avg(goldat15), 
+	avg(xpat15), 
+	avg(csat15), 
+	avg(opp_goldat15), 
+	avg(opp_xpat15), 
+	avg(opp_csat15)
+from
+	toplanestats;
+
 #============================Scratch=================================================#
 
-select *from elixerdata where player='TheShy' order by patch desc;
+select player, url, patch from elixerdata where player='TheShy' order by patch desc;
 
 select player, url, patch from all_scrapeddata where player = 'IGTheShy';

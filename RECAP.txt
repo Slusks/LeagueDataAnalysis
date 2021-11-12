@@ -1,0 +1,21 @@
+Data handling
+
+If you want to incorporate new data:
+
+Elixer:
+- Download from website
+- Open in notepad++ and convert to Unix formatting
+	- confirm UTF-8 encoding
+- load in with load_csv_to_sql script
+
+Data Loading Scripts:
+- Load_csv_to_sql - Run when you want to load in new elixer data
+- Load_scraped_csv_to_sql - run if you ever have new scraped data
+- load lpl data - see above
+- load lpl 2016 scraped - see above
+- combining all scraped data - see above
+
+Analysis scripts:
+- Solo Stats - location where Solo data being aggregated
+- Top Lane Stats - Mirror of Solo stats but for aggregating all other tops
+- data_by_champion - champion based stat script

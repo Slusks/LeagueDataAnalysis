@@ -1,4 +1,11 @@
 #creating a table of all the data taken from Oracle's elixer
+#For enabling local data load
+#show global variables like 'local_infile';
+#set global local_infile = true;
+
+##############################################################################################
+/*RUN PYTHON SCRIPT TO ORDER COLUMNS FOR 2020 AND 2021 PRIOR TO RUNNING THIS SCRIPT */
+##############################################################################################
 
 drop table if exists elixerdata;
 create table elixerdata(
@@ -123,7 +130,7 @@ create table elixerdata(
 	opp_deathsat15 int null
     );
     
-LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//utf8_2021_league_stats_9-11-2021.csv' into table elixerdata
+LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//ordered_2021_league_stats_11-11-2021.csv' into table elixerdata
 CHARACTER SET 'utf8mb4'
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
@@ -132,7 +139,7 @@ IGNORE 1 LINES;
 #If you pull the 2021 data down from oracle's elixer, you have to move some of the columns.
 #When you load the 2021 data, the university of california, Irvine team totally fucks up the columns.
     
-LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//2020_league_stats.csv' into table elixerdata
+LOAD DATA LOCAL INFILE 'C://Users//sam//Desktop//ScrapeTest//prod//data//ordered_2020_league_stats.csv' into table elixerdata
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
@@ -160,4 +167,4 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
 
 
-#select * from elixerdata where damageshare > 1;
+select * from elixerdata where damageshare > 1;

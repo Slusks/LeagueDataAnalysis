@@ -25,7 +25,7 @@ select * from urlrec where elixer != scrape;
 # elixer = 800, scrape = 8001 exists exist
 # elixer = 800, scrape = 800 does not exist
 
-
+select * from elixerdata where damageshare > 1;
 
 SELECT distinct
     url.*, e.patch
