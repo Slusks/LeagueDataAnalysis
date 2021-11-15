@@ -45,13 +45,14 @@ left join all_scrapeddata s on s.url = e.url and e.champion = s.champion# and e.
 WHERE
 	e.position = 'TOP' AND e.player != 'Solo'
 order by year;
-#select * from toplanestats;
+select * from toplanestats;
 
 /*Test to make sure the join worked correctly */
-select * from toplanestats where player = 'theShy';
+select * from toplanestats where player = 'Nuguri';
 select * from toplanestats where damageshare > 1;
 
 /* Toplaner Stats by patch/result */
+
 Select
 	player,
 	100*(sum(result)/count(result)) as 'winPercentage',
@@ -86,7 +87,7 @@ Select
 from
 	toplanestats
 group by player
-having count(result) > 18
+having count(result) > 50
 order by winPercentage DESC, games DESC;
 
 #select player, patch, earnedgoldshare, damageshare from toplanestats where player = 'TheShy' order by patch;
