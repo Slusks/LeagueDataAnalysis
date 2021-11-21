@@ -43,16 +43,17 @@ FROM
     elixerdata e
 left join all_scrapeddata s on s.url = e.url and e.champion = s.champion# and e.patch = s.patch/*on s.kills = e.kills and s.assists = e.assists and s.deaths = e.deaths */
 WHERE
-	e.position = 'TOP' AND e.player != 'Solo'
+	e.position = 'TOP'
 order by year;
-select * from toplanestats;
+
 
 /*Test to make sure the join worked correctly */
-select * from toplanestats where player = 'Nuguri';
-select * from toplanestats where damageshare > 1;
+/*select * from toplanestats where player = 'Nuguri';*/
+#select * from toplanestats where player = '1250';
 
-/* Toplaner Stats by patch/result */
 
+/* Toplaner Stats by player */
+Create or replace view toplanestats_agg AS 
 Select
 	player,
 	100*(sum(result)/count(result)) as 'winPercentage',
@@ -86,9 +87,78 @@ Select
 	avg(csdiffat15)
 from
 	toplanestats
+where league = 'LCS' or
+league = 'LPL' or
+league = 'LCK' or
+league = 'LJL' or
+league = 'LEC'or
+league = 'EULCS' or
+league = 'NALCS' or
+league = 'PCS' or
+league = 'OCE' or
+league = 'LCO'or
+league = 'VCS' or
+league = 'LCL' or
+league = 'LLA' or
+league = 'TCL' or
+league = 'CBLOL'
 group by player
 having count(result) > 50
 order by winPercentage DESC, games DESC;
+
+select * from toplanestats_agg;
+
+/* Toplane stats grouped by win/loss */
+Select
+	player,
+    count(result) as 'games',
+    result,
+    avg(earnedgoldshare),
+    avg(damageshare),
+    avg(total_cs),
+    avg(goldearned),
+    avg(damagetaken),
+    avg(totaldamagetoobjectives),
+    avg(dpm),
+    avg(gamelength),
+    avg(goldat10), 
+	avg(xpat10), 
+	avg(csat10),
+	avg(opp_goldat10), 
+	avg(opp_xpat10), 
+	avg(opp_csat10), 
+	avg(golddiffat10),
+	avg(xpdiffat10), 
+	avg(csdiffat10), 
+	avg(goldat15), 
+	avg(xpat15), 
+	avg(csat15), 
+	avg(opp_goldat15), 
+	avg(opp_xpat15), 
+	avg(opp_csat15),
+	avg(golddiffat15), 
+	avg(xpdiffat15),
+	avg(csdiffat15)
+from
+	toplanestats
+where league = 'LCS' or
+league = 'LPL' or
+league = 'LCK' or
+league = 'LJL' or
+league = 'LEC'or
+league = 'EULCS' or
+league = 'NALCS' or
+league = 'PCS' or
+league = 'OCE' or
+league = 'LCO'or
+league = 'VCS' or
+league = 'LCL' or
+league = 'LLA' or
+league = 'TCL' or
+league = 'CBLOL'
+group by player, result
+order by player, result;
+
 
 #select player, patch, earnedgoldshare, damageshare from toplanestats where player = 'TheShy' order by patch;
 
@@ -159,6 +229,57 @@ Select
 	avg(opp_csat15)
 from
 	toplanestats;
+    
+Select
+	player,
+    avg(earnedgoldshare),
+    avg(damageshare),
+    avg(total_cs),
+    avg(goldearned),
+    avg(damagetaken),
+    avg(totaldamagetoobjectives),
+    avg(dpm),
+    avg(gamelength),
+    avg(goldat10), 
+	avg(xpat10), 
+	avg(csat10),
+	avg(opp_goldat10), 
+	avg(opp_xpat10), 
+	avg(opp_csat10), 
+	avg(golddiffat10),
+	avg(xpdiffat10), 
+	avg(csdiffat10), 
+	avg(goldat15), 
+	avg(xpat15), 
+	avg(csat15), 
+	avg(opp_goldat15), 
+	avg(opp_xpat15), 
+	avg(opp_csat15),
+	avg(golddiffat15), 
+	avg(xpdiffat15),
+	avg(csdiffat15)
+from
+	toplanestats
+where league = 'LCS' or
+league = 'LPL' or
+league = 'LCK' or
+league = 'LJL' or
+league = 'LEC'or
+league = 'EULCS' or
+league = 'NALCS' or
+league = 'PCS' or
+league = 'OCE' or
+league = 'LCO'or
+league = 'VCS' or
+league = 'LCL' or
+league = 'LLA' or
+league = 'TCL' or
+league = 'CBLOL' and
+player != 'Solo'
+having count(result) > 50;
+    
+    
+    
 
 #============================Scratch=================================================#
 
