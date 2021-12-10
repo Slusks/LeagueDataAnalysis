@@ -16,7 +16,7 @@ toplaner_agg = path.Path(r'F:\LeagueStats\scraping\LeagueDataAnalysis\workingTab
 toplaner_agg_winloss =  path.Path(r'F:\LeagueStats\scraping\LeagueDataAnalysis\workingTables\TopLaneStats_agg_Win-Loss_majorLeague.csv')
 df_ta = pd.read_csv(toplaner_agg)
 df_wl = pd.read_csv(toplaner_agg_winloss)
-print(df_ta.columns)
+
 
 
 def generate_table(dataframe, max_rows=10):
@@ -37,13 +37,12 @@ colors = {
     'text': '#7FDBFF'
 }
 
-pc = ['orange' if i == 'Solo' else 'blue' for i in df_ta['player']]
+pc = ['orange' if i == 'Solo' else 'light blue' for i in df_ta['player']]
 colorscale = [[1,'green'], [2, 'blue']]
 
-#fig = px.scatter(df_ta, x='avg(earnedgoldshare)',y='winPercentage', size='games', hover_data=['player'], 
-#            color= pc
-#             )
-fig = ff.create_distplot([df_ta['avg(damageshare)']], ['avg(damageshare)'])
+#fig = px.scatter(df_ta, x='avg(earnedgoldshare)',y='winPercentage', hover_data=['player'], 
+#        color= pc)
+fig = ff.create_distplot([df_ta['avg(earnedgoldshare)']], group_labels=['earnedgoldshare'], bin_size=0.5,curve_type='normal', colors=pc)
 
 
 fig.update_layout(
