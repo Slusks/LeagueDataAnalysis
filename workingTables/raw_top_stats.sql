@@ -62,7 +62,7 @@ where
 	league = 'EULCS' or
 	league = 'NALCS' or
 	league = 'PCS' or
-	league = 'OCE' or
+	league = 'OPL' or
 	league = 'LCO'or
 	league = 'VCS' or
 	league = 'LCL' or
