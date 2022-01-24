@@ -20,7 +20,7 @@ print('numpy.version', np.__version__)
 print('scipy.version', scipy.__version__)
 
 
-
+# -------------------------- LOAD DATA ---------------------------- #
 toplaner_agg = os.path.join(r'data/TopLaneStats_agg_50games_majorLeague.csv')
 toplaner_agg_winloss =  os.path.join(r'data/TopLaneStats_agg_Win-Loss_majorLeague.csv')
 df_ta = pd.read_csv(toplaner_agg)
@@ -44,7 +44,7 @@ dft2.reset_index(drop=True, inplace=True)
 ########################################################
 
 
-
+# -------------------------- PYTHON FUNCTIONS ---------------------------- #
 def generate_table(dataframe, max_rows=10):
     return html.Table([
         html.Thead(
@@ -57,12 +57,17 @@ def generate_table(dataframe, max_rows=10):
         ])
     ])
 
+
+# -------------------------- DASH ---------------------------- #
 dashtest = dash.Dash(__name__)
 colors = {
     'background': '#161414',
     'text': '#7FDBFF'
 }
 
+server = dashtest.server
+dashtest.config.suppress_callback_exceptions = True
+# -------------------------- --------------------------------- #
 pc = ['orange' if i == 'Solo' else 'light blue' for i in dft2['player']]
 def player_color():
     d = {}
