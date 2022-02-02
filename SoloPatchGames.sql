@@ -13,13 +13,15 @@ from
 toplanestats
 where 
 player="Solo")
-and player != 'zig'
 order by patch ASC;
 
 #select distinct patch from solopatches;
 
 select * from solopatches;
 
+Select distinct * from solopatches where year = 2021 and (champion = 'Gnar' or champion = 'Renekton');
+
+/*
 drop table if exists solopatchesWorld;
 create table solopatches as
 select *
@@ -40,4 +42,6 @@ toplanestats
 where 
 player="Solo")
 and player != 'zig'
-order by patch ASC;
+order by patch ASC;*/
+
+
