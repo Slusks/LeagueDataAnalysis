@@ -17,7 +17,25 @@ order by patch ASC;
 
 #select distinct patch from solopatches;
 
-select * from solopatches;
+
+SELECT 
+    champion, 
+    COUNT(champion) as 'games played',
+    (100*count(champion))/sum(count(champion)) over () as 'percent of total'
+FROM
+    solopatches
+WHERE
+    player = 'Solo'
+GROUP BY player , champion
+ORDER BY COUNT(champion) DESC;
+
+SELECT 
+    champion, patch
+FROM
+    solopatches
+WHERE
+    player = 'Solo'
+ORDER BY patch, champion DESC;
 
 Select distinct * from solopatches where year = 2021 and (champion = 'Gnar' or champion = 'Renekton');
 
