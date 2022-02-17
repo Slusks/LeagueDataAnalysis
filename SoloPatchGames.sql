@@ -37,8 +37,49 @@ WHERE
     player = 'Solo'
 ORDER BY patch, champion DESC;
 
-Select distinct * from solopatches where year = 2021 and (champion = 'Gnar' or champion = 'Renekton');
+create view LCS_playrate as
+Select 
+A.year,
+A.player,
+A.champion,
+A.champ_games,
+B.games
+From( Select
+	year,
+	player,
+    champion,
+    count(champion) as 'champ_games'
+	from solopatches 
+    group by year, player, champion
+    /*order by year asc, player*/) as A
+Join ( Select
+	year,
+	player,
+    count(champion) as 'games'
+	from solopatches 
+    group by year, player
+    /*order by year asc, player*/) as B
+On B.year = A.year AND
+B.player = A.player
+order by A.year asc, A.player asc, A.champion asc;
 
+select
+*,
+(champ_games/games)*100 as 'play percentage'
+from
+	LCS_playrate
+order by year asc, player asc, champion asc;
+
+create view LCS_champ_pool as
+select year, player, count(Distinct champion) as 'champs_played' from LCS_playrate group by year, player;
+
+select * from LCS_champ_pool;
+
+select year, avg(champs_played) from LCS_champ_pool where champs_played > 2 group by year order by year;
+
+select year, avg(champs_played) from LCS_champ_pool where player = 'Solo' group by year order by year;
+
+select year, split, side, player, league, team from elixerdata where player = 'Solo' and (league = 'LCS' or league='NA LCS') order by year asc;
 /*
 drop table if exists solopatchesWorld;
 create table solopatches as
