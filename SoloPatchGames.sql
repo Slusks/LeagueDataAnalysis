@@ -80,6 +80,30 @@ select year, avg(champs_played) from LCS_champ_pool where champs_played > 2 grou
 select year, avg(champs_played) from LCS_champ_pool where player = 'Solo' group by year order by year;
 
 select year, split, side, player, league, team from elixerdata where player = 'Solo' and (league = 'LCS' or league='NA LCS') order by year asc;
+/*Solo's win percentage by team*/
+select year, league, team, sum(result) as 'wins', count(result) as 'games',100*(sum(result)/count(result)) as 'win rate' from elixerdata where player="Solo" and league != 'LCS.A' and league != 'NA CS'  group by team order by year asc;
+
+SELECT 
+    year,
+    team,
+    champion,
+    SUM(result) AS 'wins',
+    COUNT(champion) AS 'games',
+    ROUND(100 * (SUM(result) / COUNT(result)),2) AS 'win rate'
+FROM
+    elixerdata
+WHERE
+	player = 'Solo' 
+	AND league != 'LCS.A'
+	AND league != 'NA CS'
+	AND team != 'Gold Coin United'
+	AND team != 'Team Liquid Academy'
+    AND team != 'Ember'
+    and year > 2016
+GROUP BY year, champion
+ORDER BY year asc, count(result) desc;
+
+
 /*
 drop table if exists solopatchesWorld;
 create table solopatches as
