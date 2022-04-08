@@ -87,8 +87,8 @@ SELECT
     year,
     team,
     champion,
-    SUM(result) AS 'wins',
     COUNT(champion) AS 'games',
+    SUM(result) AS 'wins',
     ROUND(100 * (SUM(result) / COUNT(result)),2) AS 'win rate'
 FROM
     elixerdata
@@ -101,6 +101,7 @@ WHERE
     AND team != 'Ember'
     and year > 2016
 GROUP BY year, champion
+/*having COUNT(champion) > 1*/
 ORDER BY year asc, count(result) desc;
 
 
