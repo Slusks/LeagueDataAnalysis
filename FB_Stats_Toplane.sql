@@ -5,6 +5,7 @@ Select
     team,
     league,
 	year,
+    split,
 	patch,
 	position,
 	firstblood,
@@ -23,8 +24,12 @@ where
 	league = 'NA LCS')
 	order by year, patch;
     
+update ToplaneFBLCS set split = 'Summer'
+where split = '';
+    
 select 
     year,
+    split,
 	sum(firstblood) as 'FB',
     sum(firstblood)/Count(firstblood) as 'FB%',
 	sum(firstbloodkill) as 'FB Kill',
@@ -35,8 +40,9 @@ select
     sum(firstbloodvictim)/Count(firstbloodvictim)as '%FB Victim'
 from
 	ToplaneFBLCS
-group by year
-order by year,'FB%';
+where player != 'Solo'
+group by year, split
+order by year, split desc;
     
     
 select 
